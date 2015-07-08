@@ -53,7 +53,7 @@
 @property (nonatomic, strong) NSString* imageURL;
 
 /** 默认广告图, 只针对网络广告图 */
-@property (nonatomic, strong) UIImage* placeholdImage;
+@property (nonatomic, strong) UIImage* placeholderImage;
 
 @end
 

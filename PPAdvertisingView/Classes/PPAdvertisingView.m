@@ -7,6 +7,7 @@
 //
 
 #import "PPAdvertisingView.h"
+#import <UIImageView+WebCache.h>
 
 #define kPageControlHeight  (20.f)
 #define kAutoScrollTimeInterval (3.0f)
@@ -155,7 +156,11 @@
 
 - (void)layoutItemViewWithIndex:(NSInteger)index item:(PPAdvertisingItem* )item{
     UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(index*_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height)];
-    imageView.image = item.image;
+    if (item.imageURL) {
+        [imageView sd_setImageWithURL:[NSURL URLWithString:item.imageURL] placeholderImage:item.placeholderImage];
+    } else {
+        imageView.image = item.image;
+    }
     [_scrollView addSubview:imageView];
     [_itemViews addObject:imageView];
 }
