@@ -71,7 +71,10 @@
         _tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizer:)];
         _tapGestureRecognize.numberOfTapsRequired = 1;
         [_scrollView addGestureRecognizer:_tapGestureRecognize];
-
+        
+        //注册进入后台、前台通知
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForegroundNotification:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
     }
     return self;
 }
@@ -87,8 +90,17 @@
     return self;
 }
 
+- (void)applicationWillResignActiveNotification:(NSNotification* )notification {
+    [_scrollTimer invalidate];
+}
+
+- (void)applicationWillEnterForegroundNotification:(NSNotification* )notification {
+    self.autoScrollTimeInterval = _autoScrollTimeInterval;
+}
+
 - (void)dealloc {
     [_scrollView removeGestureRecognizer:_tapGestureRecognize];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)layoutSubviews {
