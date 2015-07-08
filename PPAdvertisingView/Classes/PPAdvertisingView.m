@@ -50,6 +50,8 @@
         
         _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         _scrollView.pagingEnabled = YES;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self addSubview:_scrollView];
         
@@ -72,10 +74,12 @@
 }
 
 - (void)setTotalPage:(NSInteger)totalPage {
+    _totalPage = totalPage;
     _pageControl.numberOfPages = totalPage;
 }
 
 - (void)setCurrentPage:(NSInteger)currentPage {
+    _currentPage = currentPage;
     _pageControl.currentPage = currentPage;
 }
 
@@ -88,6 +92,7 @@
     /** 头部需要插入最后一张图，尾部需要插入第一张图，因此scrollView要多出2页长度 */
     CGFloat contentWidth = (_totalPage > 1 ? _totalPage+2 : _totalPage)*self.bounds.size.width;
     
+    NSLog(@"contentWidth=%f", contentWidth);
     _scrollView.contentSize = CGSizeMake(contentWidth, self.bounds.size.height);
 
     [self relayout];
@@ -95,6 +100,7 @@
 
 - (void)layoutItemViewWithIndex:(NSInteger)index item:(PPAdvertisingItem* )item{
     UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(index*_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height)];
+    imageView.image = item.image;
     [_scrollView addSubview:imageView];
     [_itemViews addObject:imageView];
 }

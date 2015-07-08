@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "PPAdvertisingView.h"
 
 @interface ViewController ()
 
@@ -17,6 +18,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    NSMutableArray* items = [NSMutableArray array];
+    {
+        PPAdvertisingItem* item = [PPAdvertisingItem itemWithTitle:@"title 1" contentURL:@"http://www.baidu.com"];
+        item.image = [UIImage imageNamed:@"1.jpg"];
+        [items addObject:item];
+    }
+    
+    {
+        PPAdvertisingItem* item = [PPAdvertisingItem itemWithTitle:@"title 2" contentURL:@"http://www.baidu.com"];
+        item.image = [UIImage imageNamed:@"2.jpg"];
+        [items addObject:item];
+    }
+    
+    PPAdvertisingView* adView = [[PPAdvertisingView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 200) advertisingItems:items touchAction:^(PPAdvertisingItem *item) {
+        NSLog(@"Touch %@", item.title);
+    }];
+    
+    [self.view addSubview:adView];
 }
 
 - (void)didReceiveMemoryWarning {
