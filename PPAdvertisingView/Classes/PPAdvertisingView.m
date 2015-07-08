@@ -32,12 +32,14 @@
 
 #pragma mark - PPAdvertisingView
 @interface PPAdvertisingView () <UIScrollViewDelegate> {
-    UIScrollView*   _scrollView;
-    NSMutableArray* _itemViews;
+    UIScrollView*           _scrollView;
+    NSMutableArray*         _itemViews;
+    UITapGestureRecognizer* _tapGestureRecognize;
 }
 
 @property (nonatomic, assign) NSInteger totalPage;
 @property (nonatomic, assign) NSInteger currentPage; //from 0
+@property (nonatomic, assign) NSInteger currentIndex;
 
 @end
 
@@ -59,6 +61,12 @@
         _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-kPageControlHeight, self.bounds.size.width, kPageControlHeight)];
         _pageControl.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
         [self addSubview:_pageControl];
+        
+        //点击事件
+        _tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizer:)];
+        _tapGestureRecognize.numberOfTapsRequired = 1;
+        [_scrollView addGestureRecognizer:_tapGestureRecognize];
+
     }
     return self;
 }
@@ -74,6 +82,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [_scrollView removeGestureRecognizer:_tapGestureRecognize];
+}
+
 - (void)layoutSubviews {
     self.advertisingItems = _advertisingItems;
 }
@@ -86,6 +98,12 @@
 - (void)setCurrentPage:(NSInteger)currentPage {
     _currentPage = currentPage;
     _pageControl.currentPage = currentPage;
+}
+
+- (void)setCurrentIndex:(NSInteger)currentIndex {
+    _currentIndex = currentIndex;
+    CGFloat offsetX = currentIndex*_scrollView.bounds.size.width;
+    _scrollView.contentOffset = CGPointMake(offsetX, 0);
 }
 
 - (void)setAdvertisingItems:(NSArray *)advertisingItems {
@@ -121,7 +139,6 @@
     if (self.totalPage > 1) {
         [self layoutItemViewWithIndex:index item:[_advertisingItems lastObject]];
         index++;
-        [self scrollToIndex:index];
     }
     
     for (PPAdvertisingItem* item in _advertisingItems) {
@@ -133,6 +150,8 @@
         [self layoutItemViewWithIndex:index item:[_advertisingItems firstObject]];
         index++;
     }
+    
+    self.currentIndex = 1;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -141,17 +160,21 @@
         self.currentPage = (index - 1 + self.totalPage)%self.totalPage;
         if (index == 0) {
             index += self.totalPage;
-            [self scrollToIndex:index];
+            self.currentIndex = index;
         } else if (index == self.totalPage+1) {
             index -= self.totalPage;
-            [self scrollToIndex:index];
+            self.currentIndex = index;
         }
     }
 }
 
-- (void)scrollToIndex:(NSInteger)index {
-    CGFloat offsetX = index*_scrollView.bounds.size.width;
-    _scrollView.contentOffset = CGPointMake(offsetX, 0);
+- (void)tapGestureRecognizer:(UIGestureRecognizer* )gestureRecognizer {
+    if (_touchAction) {
+        CGPoint point = [gestureRecognizer locationInView:_scrollView];
+        NSInteger index = (NSInteger)(point.x/_scrollView.bounds.size.width);
+        PPAdvertisingItem* item = _advertisingItems[(index-1+self.totalPage)%self.totalPage];
+        _touchAction(item);
+    }
 }
 
 @end
