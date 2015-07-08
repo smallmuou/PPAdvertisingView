@@ -20,6 +20,7 @@
 		E42A3C011B4CD53200369CB3 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E42A3BFD1B4CD53200369CB3 /* 3.jpg */; };
 		E42A3C021B4CD53200369CB3 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E42A3BFE1B4CD53200369CB3 /* 2.jpg */; };
 		E42A3C031B4CD53200369CB3 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E42A3BFF1B4CD53200369CB3 /* 1.jpg */; };
+		E42A3C051B4CF6D000369CB3 /* default.gif in Resources */ = {isa = PBXBuildFile; fileRef = E42A3C041B4CF6D000369CB3 /* default.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		E42A3BFD1B4CD53200369CB3 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		E42A3BFE1B4CD53200369CB3 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		E42A3BFF1B4CD53200369CB3 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		E42A3C041B4CF6D000369CB3 /* default.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = default.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 		E42A3BD21B4CB8B200369CB3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E42A3C041B4CF6D000369CB3 /* default.gif */,
 				E42A3BFC1B4CD53200369CB3 /* 4.jpg */,
 				E42A3BFD1B4CD53200369CB3 /* 3.jpg */,
 				E42A3BFE1B4CD53200369CB3 /* 2.jpg */,
@@ -254,6 +257,7 @@
 				E42A3C011B4CD53200369CB3 /* 3.jpg in Resources */,
 				E42A3C001B4CD53200369CB3 /* 4.jpg in Resources */,
 				E42A3BDE1B4CB8B200369CB3 /* Main.storyboard in Resources */,
+				E42A3C051B4CF6D000369CB3 /* default.gif in Resources */,
 				E42A3BE31B4CB8B200369CB3 /* LaunchScreen.xib in Resources */,
 				E42A3BE01B4CB8B200369CB3 /* Images.xcassets in Resources */,
 				E42A3C031B4CD53200369CB3 /* 1.jpg in Resources */,
