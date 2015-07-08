@@ -9,7 +9,9 @@
 #import "ViewController.h"
 #import "PPAdvertisingView.h"
 
-@interface ViewController ()
+@interface ViewController () {
+    PPAdvertisingView* _adView;
+}
 
 @end
 
@@ -73,16 +75,24 @@
     }
 
     
-    PPAdvertisingView* adView = [[PPAdvertisingView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 200) advertisingItems:items touchAction:^(PPAdvertisingItem *item) {
+    _adView = [[PPAdvertisingView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 200) advertisingItems:items touchAction:^(PPAdvertisingItem *item) {
         NSLog(@"点击 %@", item.title);
     }];
     
-    [self.view addSubview:adView];
+    [self.view addSubview:_adView];
+    
+    self.segmentedControl.selectedSegmentIndex = 1;
+    
+    [self onSegmentedControlValueChanged:self.segmentedControl];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)onSegmentedControlValueChanged:(UISegmentedControl* )control {
+    _adView.autoScrollTimeInterval = [(@[@0, @5, @10][control.selectedSegmentIndex]) integerValue];
 }
 
 @end

@@ -211,7 +211,9 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _lastDraggingTimeInterval = [NSDate timeIntervalSinceReferenceDate];
-    NSInteger index = (NSInteger)(scrollView.contentOffset.x/scrollView.bounds.size.width);
+    
+    CGFloat x = scrollView.contentOffset.x;    
+    NSInteger index = (NSInteger)(x/scrollView.bounds.size.width);
     if (self.totalPage > 1) {
         if (index == 0) {
             index += self.totalPage;

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,8 +17,50 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j07-4S-5yH">
+                                <rect key="frame" x="0.0" y="294" width="600" height="31"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="XcT-Ma-Rde">
+                                        <rect key="frame" x="239" y="2" width="123" height="29"/>
+                                        <segments>
+                                            <segment title="0s"/>
+                                            <segment title="5s"/>
+                                            <segment title="10s"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="onSegmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Asq-kF-2Ig"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="滚动间隔" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shj-9l-c65">
+                                        <rect key="frame" x="8" y="5" width="223" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="7gJ-Zx-U1F"/>
+                                    <constraint firstItem="Shj-9l-c65" firstAttribute="leading" secondItem="j07-4S-5yH" secondAttribute="leading" constant="8" id="SND-Vf-AsU"/>
+                                    <constraint firstAttribute="bottom" secondItem="Shj-9l-c65" secondAttribute="bottom" constant="5" id="T6V-dw-MZC"/>
+                                    <constraint firstItem="Shj-9l-c65" firstAttribute="top" secondItem="j07-4S-5yH" secondAttribute="top" constant="5" id="VLL-mQ-XNP"/>
+                                    <constraint firstAttribute="centerY" secondItem="XcT-Ma-Rde" secondAttribute="centerY" id="htd-qs-nll"/>
+                                    <constraint firstItem="XcT-Ma-Rde" firstAttribute="leading" secondItem="Shj-9l-c65" secondAttribute="trailing" constant="8" id="pFl-gW-oGA"/>
+                                    <constraint firstAttribute="centerX" secondItem="XcT-Ma-Rde" secondAttribute="centerX" id="qsq-f9-dUm"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="j07-4S-5yH" secondAttribute="centerY" id="EGd-sy-Avh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="j07-4S-5yH" secondAttribute="trailing" constant="-16" id="aGm-JM-yZY"/>
+                            <constraint firstItem="j07-4S-5yH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="cAt-E1-5t6"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="segmentedControl" destination="XcT-Ma-Rde" id="BVR-vE-wIp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
