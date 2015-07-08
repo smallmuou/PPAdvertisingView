@@ -193,6 +193,7 @@
     } else {
         imageView.image = item.image;
     }
+    
     [_scrollView addSubview:imageView];
     [_itemViews addObject:imageView];
 }
@@ -222,7 +223,7 @@
     }
     
     //默认第一张开始
-    self.currentIndex = 1;
+    self.currentIndex = (self.totalPage > 1) ? 1 : 0;
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {

@@ -1,0 +1,6 @@
+# PPAdvertisingView
+PPAdvertisingView是一个集成UISCrollView与UIPageControll来完成市面上通用的广告页功能.
+
+
+### WHY
+在开始介绍PPAdvertisingView前，我先来回答一下WHY这个问题，即为什么要自己实现PPAdvertisingView
