@@ -29,7 +29,7 @@
 #import "PPAdvertisingView.h"
 #import <UIImageView+WebCache.h>
 
-#define kPageControlHeight  (20.f)
+#define kPageControlHeight      (20.f)
 #define kAutoScrollTimeInterval (3.0f)
 
 #pragma mark - PPAdvertisingItem
@@ -223,10 +223,6 @@
     
     //默认第一张开始
     self.currentIndex = 1;
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    [self scrollViewDidEndDecelerating:scrollView];
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
