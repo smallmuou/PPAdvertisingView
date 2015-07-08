@@ -194,7 +194,7 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _lastDraggingTimeInterval = [NSDate timeIntervalSinceReferenceDate];
+    [self scrollViewDidEndDecelerating:scrollView];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
