@@ -31,7 +31,7 @@
 @end
 
 #pragma mark - PPAdvertisingView
-@interface PPAdvertisingView () {
+@interface PPAdvertisingView () <UIScrollViewDelegate> {
     UIScrollView*   _scrollView;
     NSMutableArray* _itemViews;
 }
@@ -50,6 +50,7 @@
         
         _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         _scrollView.pagingEnabled = YES;
+        _scrollView.delegate = self;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -73,6 +74,10 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    self.advertisingItems = _advertisingItems;
+}
+
 - (void)setTotalPage:(NSInteger)totalPage {
     _totalPage = totalPage;
     _pageControl.numberOfPages = totalPage;
@@ -92,7 +97,6 @@
     /** 头部需要插入最后一张图，尾部需要插入第一张图，因此scrollView要多出2页长度 */
     CGFloat contentWidth = (_totalPage > 1 ? _totalPage+2 : _totalPage)*self.bounds.size.width;
     
-    NSLog(@"contentWidth=%f", contentWidth);
     _scrollView.contentSize = CGSizeMake(contentWidth, self.bounds.size.height);
 
     [self relayout];
@@ -106,17 +110,18 @@
 }
 
 - (void)relayout {
-    //clear
+    //清空旧广告
     for (UIView* view in _itemViews) {
         [view removeFromSuperview];
     }
     [_itemViews removeAllObjects];
     
-    //reAdd
+    //添加新的广告
     NSInteger index = 0;
     if (self.totalPage > 1) {
         [self layoutItemViewWithIndex:index item:[_advertisingItems lastObject]];
         index++;
+        [self scrollToIndex:index];
     }
     
     for (PPAdvertisingItem* item in _advertisingItems) {
@@ -128,6 +133,25 @@
         [self layoutItemViewWithIndex:index item:[_advertisingItems firstObject]];
         index++;
     }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger index = (NSInteger)(scrollView.contentOffset.x/scrollView.bounds.size.width);
+    if (self.totalPage > 1) {
+        self.currentPage = (index - 1 + self.totalPage)%self.totalPage;
+        if (index == 0) {
+            index += self.totalPage;
+            [self scrollToIndex:index];
+        } else if (index == self.totalPage+1) {
+            index -= self.totalPage;
+            [self scrollToIndex:index];
+        }
+    }
+}
+
+- (void)scrollToIndex:(NSInteger)index {
+    CGFloat offsetX = index*_scrollView.bounds.size.width;
+    _scrollView.contentOffset = CGPointMake(offsetX, 0);
 }
 
 @end
