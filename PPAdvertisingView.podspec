@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.summary      = "PPAdvertisingView是一个集成UISCrollView与UIPageControll来完成市面上通用的广告页功能."
 
   s.description  = <<-DESC
-                    Github中已经能找到类似的开源代码，我为什么要再开发一个呢？主要处于一下几个原因:
+                    Github中已经能找到类似的开源代码，我为什么要再开发一个呢？主要出于以下几个原因:
 
                     * 代码比较混乱
                     * 耦合度太高
