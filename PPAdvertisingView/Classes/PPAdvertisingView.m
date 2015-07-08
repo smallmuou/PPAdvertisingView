@@ -37,6 +37,7 @@
     NSMutableArray*         _itemViews;
     UITapGestureRecognizer* _tapGestureRecognize;
     NSTimer*                _scrollTimer;
+    NSTimeInterval          _lastDraggingTimeInterval;
 }
 
 @property (nonatomic, assign) NSInteger totalPage;
@@ -106,6 +107,7 @@
 - (void)setCurrentIndex:(NSInteger)currentIndex {
     _currentIndex = currentIndex;
     self.currentPage = (_currentIndex - 1 + self.totalPage)%self.totalPage;
+    
     CGFloat offsetX = currentIndex*_scrollView.bounds.size.width;
     _scrollView.contentOffset = CGPointMake(offsetX, 0);
 }
@@ -114,11 +116,16 @@
     _autoScrollTimeInterval = autoScrollTimeInterval;
     
     [_scrollTimer invalidate];
-    _scrollTimer = [NSTimer timerWithTimeInterval:_autoScrollTimeInterval target:self selector:@selector(onScrollTimeOut:) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_scrollTimer forMode:NSDefaultRunLoopMode];
+    if (self.totalPage > 1) {
+        _scrollTimer = [NSTimer timerWithTimeInterval:_autoScrollTimeInterval target:self selector:@selector(onScrollTimeOut:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_scrollTimer forMode:NSDefaultRunLoopMode];        
+    }
 }
 
 - (void)onScrollTimeOut:(NSTimer* )timer {
+    //拖动期间不允许自动滚动
+    if (([NSDate timeIntervalSinceReferenceDate] - _lastDraggingTimeInterval) < _autoScrollTimeInterval) return;
+    
     [UIView animateWithDuration:0.5f animations:^{
         self.currentIndex = (self.currentIndex+1)%(self.totalPage > 1 ? self.totalPage+2: self.totalPage);
     } completion:^(BOOL finished) {
@@ -181,16 +188,20 @@
     self.currentIndex = 1;
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _lastDraggingTimeInterval = [NSDate timeIntervalSinceReferenceDate];
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _lastDraggingTimeInterval = [NSDate timeIntervalSinceReferenceDate];
     NSInteger index = (NSInteger)(scrollView.contentOffset.x/scrollView.bounds.size.width);
     if (self.totalPage > 1) {
         if (index == 0) {
             index += self.totalPage;
-            self.currentIndex = index;
         } else if (index == self.totalPage+1) {
             index -= self.totalPage;
-            self.currentIndex = index;
         }
+        self.currentIndex = index;
     }
 }
 

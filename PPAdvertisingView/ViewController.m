@@ -32,6 +32,18 @@
         [items addObject:item];
     }
     
+    {
+        PPAdvertisingItem* item = [PPAdvertisingItem itemWithTitle:@"title 3" contentURL:@"http://www.baidu.com"];
+        item.image = [UIImage imageNamed:@"3.jpg"];
+        [items addObject:item];
+    }
+    
+    {
+        PPAdvertisingItem* item = [PPAdvertisingItem itemWithTitle:@"title 4" contentURL:@"http://www.baidu.com"];
+        item.image = [UIImage imageNamed:@"4.jpg"];
+        [items addObject:item];
+    }
+    
     PPAdvertisingView* adView = [[PPAdvertisingView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 200) advertisingItems:items touchAction:^(PPAdvertisingItem *item) {
         NSLog(@"Touch %@", item.title);
     }];
