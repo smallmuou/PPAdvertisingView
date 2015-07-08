@@ -37,7 +37,8 @@
  * @param title 标题
  * @param contentURL 详情URL
  */
-+ (instancetype)itemWithTitle:(NSString* )title contentURL:(NSString* )contentURL;
++ (instancetype)itemWithTitle:(NSString* )title
+                   contentURL:(NSString* )contentURL;
 
 /** 广告标题 */
 @property (nonatomic, strong) NSString* title;
@@ -51,7 +52,7 @@
 /** 网络广告图URL */
 @property (nonatomic, strong) NSString* imageURL;
 
-/** 默认广告图 */
+/** 默认广告图, 只针对网络广告图 */
 @property (nonatomic, strong) UIImage* placeholdImage;
 
 @end
@@ -64,14 +65,20 @@
  * 初始化
  *
  * @param frame 区域
- * @param advertisingItems 广告单元，由PPAdvertisingItem对象组成
+ * @param advertisingItems 广告单元组合，由PPAdvertisingItem对象组成
+ * @param touchAction 单击广告页触发动作
  */
-- (instancetype)initWithFrame:(CGRect)frame item:(NSArray* )advertisingItems;
+- (instancetype)initWithFrame:(CGRect)frame
+             advertisingItems:(NSArray* )advertisingItems
+                  touchAction:(void(^)(PPAdvertisingItem* item))touchAction;
 
 /** 广告内容 */
 @property (nonatomic, strong) NSArray* advertisingItems;
 
-/** 可以通过pageControl更改其位置、颜色、形状 */
+/** 单击广告页触发动作 */
+@property (nonatomic, copy) void(^touchAction)(PPAdvertisingItem* item);
+
+/** 可以通过pageControl更改其位置、颜色、形状，但不可更改页数及当前页 */
 @property (nonatomic, readonly) UIPageControl* pageControl;
 
 @end
