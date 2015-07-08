@@ -1,5 +1,5 @@
 /**
- * PPAdvertisingView
+ * PPAdvertisingView.h
  *
  * 该类继承了广告功能，支持网络与本地图片
  *
