@@ -75,6 +75,9 @@
 /** 广告内容 */
 @property (nonatomic, strong) NSArray* advertisingItems;
 
+/** 自动滚动间隔时间，0表示不自动滚动，默认3s */
+@property (nonatomic, assign) NSTimeInterval autoScrollTimeInterval;
+
 /** 单击广告页触发动作 */
 @property (nonatomic, copy) void(^touchAction)(PPAdvertisingItem* item);
 

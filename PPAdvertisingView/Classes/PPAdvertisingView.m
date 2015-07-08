@@ -9,6 +9,7 @@
 #import "PPAdvertisingView.h"
 
 #define kPageControlHeight  (20.f)
+#define kAutoScrollTimeInterval (3.0f)
 
 #pragma mark - PPAdvertisingItem
 @implementation PPAdvertisingItem
@@ -35,6 +36,7 @@
     UIScrollView*           _scrollView;
     NSMutableArray*         _itemViews;
     UITapGestureRecognizer* _tapGestureRecognize;
+    NSTimer*                _scrollTimer;
 }
 
 @property (nonatomic, assign) NSInteger totalPage;
@@ -49,6 +51,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _itemViews = [NSMutableArray array];
+        _autoScrollTimeInterval = kAutoScrollTimeInterval;
         
         _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         _scrollView.pagingEnabled = YES;
@@ -102,8 +105,29 @@
 
 - (void)setCurrentIndex:(NSInteger)currentIndex {
     _currentIndex = currentIndex;
+    self.currentPage = (_currentIndex - 1 + self.totalPage)%self.totalPage;
     CGFloat offsetX = currentIndex*_scrollView.bounds.size.width;
     _scrollView.contentOffset = CGPointMake(offsetX, 0);
+}
+
+- (void)setAutoScrollTimeInterval:(NSTimeInterval)autoScrollTimeInterval {
+    _autoScrollTimeInterval = autoScrollTimeInterval;
+    
+    [_scrollTimer invalidate];
+    _scrollTimer = [NSTimer timerWithTimeInterval:_autoScrollTimeInterval target:self selector:@selector(onScrollTimeOut:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_scrollTimer forMode:NSDefaultRunLoopMode];
+}
+
+- (void)onScrollTimeOut:(NSTimer* )timer {
+    [UIView animateWithDuration:0.5f animations:^{
+        self.currentIndex = (self.currentIndex+1)%(self.totalPage > 1 ? self.totalPage+2: self.totalPage);
+    } completion:^(BOOL finished) {
+        if (self.currentIndex == 0) {
+            self.currentIndex += self.totalPage;
+        } else if (self.currentIndex == self.totalPage+1) {
+            self.currentIndex -= self.totalPage;
+        }
+    }];
 }
 
 - (void)setAdvertisingItems:(NSArray *)advertisingItems {
@@ -118,6 +142,8 @@
     _scrollView.contentSize = CGSizeMake(contentWidth, self.bounds.size.height);
 
     [self relayout];
+    
+    self.autoScrollTimeInterval = _autoScrollTimeInterval;
 }
 
 - (void)layoutItemViewWithIndex:(NSInteger)index item:(PPAdvertisingItem* )item{
@@ -151,13 +177,13 @@
         index++;
     }
     
+    //默认第一张开始
     self.currentIndex = 1;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger index = (NSInteger)(scrollView.contentOffset.x/scrollView.bounds.size.width);
     if (self.totalPage > 1) {
-        self.currentPage = (index - 1 + self.totalPage)%self.totalPage;
         if (index == 0) {
             index += self.totalPage;
             self.currentIndex = index;
