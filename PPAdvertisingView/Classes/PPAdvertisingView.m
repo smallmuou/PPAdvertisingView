@@ -116,7 +116,7 @@
     _autoScrollTimeInterval = autoScrollTimeInterval;
     
     [_scrollTimer invalidate];
-    if (self.totalPage > 1) {
+    if (self.totalPage > 1 && _autoScrollTimeInterval) {
         _scrollTimer = [NSTimer timerWithTimeInterval:_autoScrollTimeInterval target:self selector:@selector(onScrollTimeOut:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_scrollTimer forMode:NSDefaultRunLoopMode];        
     }
