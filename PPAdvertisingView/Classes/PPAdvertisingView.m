@@ -188,6 +188,7 @@
 
 - (void)layoutItemViewWithIndex:(NSInteger)index item:(PPAdvertisingItem* )item{
     UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(index*_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height)];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
     if (item.imageURL) {
         [imageView sd_setImageWithURL:[NSURL URLWithString:item.imageURL] placeholderImage:item.placeholderImage];
     } else {
